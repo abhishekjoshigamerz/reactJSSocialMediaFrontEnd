@@ -4,10 +4,15 @@ import { loginCall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
+import { useHistory } from 'react-router';
 export default function Login() {
   const email = useRef();
   const password = useRef(); 
   const {user,isFetching,error,dispatch} = useContext(AuthContext);
+  const history = useHistory();
+  const registerRedirect = () => {
+    history.push('/register');
+  }
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -28,12 +33,12 @@ export default function Login() {
           </span>
         </div>
         <div className="loginRight">
-          <form className="loginBox" onClick={submitForm}>
+          <form className="loginBox" onSubmit={submitForm}>
             <input placeholder="Email"  type="email" className="loginInput" required  ref={email}/>
             <input placeholder="Password" type="password" className="loginInput" minLength="8" required ref={password}/>
             <button className="loginButton">{isFetching ? <CircularProgress color="primary" size="20px"/> : "Log In" }</button>
             <span className="loginForgot">Forgot Password?</span>
-            <button className="loginRegisterButton">
+            <button className="loginRegisterButton" onClick={registerRedirect}>
               Create a New Account
             </button>
           </form>
